@@ -9,7 +9,7 @@ It's deployed on Terraform, run on Talos Linux, and automated via:
 
 ---
 
-The repo is split into 2 sections, `terraform` and `talos`. There will eventually be a `kubernetes` section, but I haven't got there yet.
+The repo is split into 3 sections:
 
 - `terraform/` : Terraform Code
     - `syd/` : Sydney Module
@@ -17,3 +17,18 @@ The repo is split into 2 sections, `terraform` and `talos`. There will eventuall
     - `talos/` : Talos Linux Image (not included in git repo, too large)
     - `main.tf` : Root Module File
     - `talconfig.yaml.tftpl` : Talhelper config template, automated via Terraform
+- `talos/` : Talos cluster lifecycle
+    - decrypt/apply Talos config
+    - generate cluster config artifacts
+- `kubernetes/` : Post-Talos bootstrap + GitOps-managed cluster state
+    - bootstrap Cilium
+    - bootstrap Flux
+    - host future cluster apps and infrastructure manifests
+
+## Bootstrap flow
+
+1. `task tf:deploy`
+2. `task talos:full-deploy`
+3. `task k8s:bootstrap`
+
+That keeps infrastructure, Talos, and GitOps ownership separate instead of cramming Flux bootstrap into Talos machine config.

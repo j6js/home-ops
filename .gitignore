@@ -8,3 +8,5 @@ talos/talsecret.yaml
 talos/clusterconfig/
 talos/talconfig.yaml
 talos/kubeconfig
+kubernetes/kubeconfig
+kubernetes/bootstrap.env

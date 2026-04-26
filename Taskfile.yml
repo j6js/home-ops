@@ -6,10 +6,22 @@ includes:
   tf:
     taskfile: ./terraform/Taskfile.yml
     dir: ./terraform
-  
+  talos:
+    taskfile: ./talos/Taskfile.yml
+    dir: ./talos
+  k8s:
+    taskfile: ./kubernetes/Taskfile.yml
+    dir: ./kubernetes
+
 tasks:
   default:
     desc: Print a greeting message
     cmds:
       - echo "{{.GREETING}}"
     silent: true
+
+  bootstrap:
+    desc: End-to-end cluster bootstrap after Terraform has rendered Talos config
+    cmds:
+      - task: talos:full-deploy
+      - task: k8s:bootstrap
