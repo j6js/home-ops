@@ -1,0 +1,10 @@
+.DS_Store
+**/.terraform
+**/terraform.tfstate
+**/terraform.tfstate.*
+**/*.raw
+talos/clusterconfig
+talos/talsecret.yaml
+talos/clusterconfig/
+talos/talconfig.yaml
+talos/kubeconfig

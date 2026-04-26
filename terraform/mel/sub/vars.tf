@@ -1,0 +1,28 @@
+variable "syd_ipv6_cidr" {
+  type = string
+  description = "CIDR block for Sydney VCN IPv6 range"
+}
+variable "syd_ipv4_cidr" {
+  type = string
+  description = "CIDR block for Sydney VCN IPv4 range"
+}
+variable "vcn_id" {
+  type = string
+  description = "OCID of the Melbourne VCN"
+}
+variable "drg_rt_id" {
+  type = string
+  description = "OCID of the Melbourne DRG Route Table"
+}
+variable "drg_id" {
+  type = string
+  description = "OCID of the Melbourne DRG"
+}
+variable "rpc_id" {
+  type = string
+  description = "OCID of the Melbourne Remote Peering Connection"
+}
+variable "nsg_id" {
+  type = string
+  description = "OCID of the Melbourne Network Security Group"
+}

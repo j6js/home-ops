@@ -1,0 +1,32 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+  decrypt:
+    desc: Decrypt .secrets/talsecret.sops.yaml using SOPS, output to ./talsecret.yaml
+    cmds:
+      - sops -d .secrets/talsecret.sops.yaml > talsecret.yaml
+  encrypt:
+    desc: Encrypt ./talsecret.yaml using SOPS, output to .secrets/talsecret.sops.yaml
+    cmds:
+      - sops -e talsecret.yaml > .secrets/talsecret.sops.yaml
+  deploy:
+    desc: Applies the talconfig from Terraform (comes first) via talhelper
+    cmds:
+      - if: "![ -f \"talconfig.yaml\" ]" # If the talconfig.yaml file does NOT exist
+        cmd: "echo \"talconfig.yaml not found, Terraform should be run first to populate it.\" && exit 1" # Print an error message and exit with a non-zero status to stop the task
+      - if: "![ -f \"talsecret.yaml\" ]" # If talsecret.yaml does NOT exist
+        task: decrypt # Run the decrypt task to create it
+      - talhelper genconfig # Uses talconfig.yaml to generate per-machine config for all nodes
+      - talhelper gencommand apply | bash # Apply config to already configured nodes
+      - talhelper gencommand apply --extra-flags "--insecure" | bash # Apply config to new nodes (without valid TLS)
+  clean:
+    desc: Remove the generated talsecret.yaml file
+    cmds:
+      - rm -f talsecret.yaml
+  full-deploy:
+    desc: Runs the full deploy process, including decrypting secrets, deploying config, and cleaning up
+    cmds:
+      - task: decrypt
+      - task: deploy
+      - task: clean

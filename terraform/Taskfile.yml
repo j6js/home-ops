@@ -1,0 +1,23 @@
+
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+tasks:
+    deploy:
+        desc: Deploys Infra via Terraform
+        cmds:
+            - cmd: terraform init
+            - cmd: terraform validate
+            - cmd: terraform apply -auto-approve
+    output:
+        desc: Outputs Terraform outputs
+        cmds:
+            - cmd: terraform output
+    output-json:
+        desc: Outputs Terraform outputs in JSON format
+        cmds:
+            - cmd: terraform output -json
+    destroy:
+        desc: Destroys Infra via Terraform
+        cmds:
+            - cmd: terraform destroy # no -auto-approve here so that CI/CD can't just destroy everything without a human confirming it
