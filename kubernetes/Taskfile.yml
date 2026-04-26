@@ -1,0 +1,47 @@
+# yaml-language-server: $schema=https://taskfile.dev/schema.json
+version: '3'
+
+vars:
+  KUBECONFIG_FILE: '{{default "./kubeconfig" .KUBECONFIG_FILE}}'
+  TALOSCONFIG_FILE: '{{default "../talos/clusterconfig/talosconfig" .TALOSCONFIG_FILE}}'
+  BOOTSTRAP_ENV_FILE: '{{default "./bootstrap.env" .BOOTSTRAP_ENV_FILE}}'
+
+tasks:
+  kubeconfig:
+    desc: Fetch kubeconfig from Talos into kubernetes/kubeconfig
+    preconditions:
+      - sh: test -f "{{.TALOSCONFIG_FILE}}"
+        msg: talos/clusterconfig/talosconfig not found. Run task talos:deploy first.
+    cmds:
+      - talosctl --talosconfig "{{.TALOSCONFIG_FILE}}" kubeconfig "{{.KUBECONFIG_FILE}}"
+
+  wait-control-plane:
+    desc: Wait for the Kubernetes API to respond
+    deps: [kubeconfig]
+    cmds:
+      - KUBECONFIG="{{.KUBECONFIG_FILE}}" bash -c 'until kubectl get --raw=/readyz >/dev/null 2>&1; do echo "waiting for Kubernetes API..."; sleep 5; done'
+
+  bootstrap-cilium:
+    desc: Install or upgrade Cilium as the cluster networking layer
+    deps: [wait-control-plane]
+    cmds:
+      - KUBECONFIG="{{.KUBECONFIG_FILE}}" BOOTSTRAP_ENV_FILE="{{.BOOTSTRAP_ENV_FILE}}" bash ./scripts/bootstrap-cilium.sh
+
+  bootstrap-flux:
+    desc: Bootstrap Flux against this GitHub repository
+    deps: [bootstrap-cilium]
+    cmds:
+      - KUBECONFIG="{{.KUBECONFIG_FILE}}" BOOTSTRAP_ENV_FILE="{{.BOOTSTRAP_ENV_FILE}}" bash ./scripts/bootstrap-flux.sh
+
+  bootstrap:
+    desc: Run the full post-Talos bootstrap flow
+    cmds:
+      - task: bootstrap-cilium
+      - task: bootstrap-flux
+
+  check:
+    desc: Quick cluster sanity check using the generated kubeconfig
+    deps: [kubeconfig]
+    cmds:
+      - KUBECONFIG="{{.KUBECONFIG_FILE}}" kubectl get nodes -o wide
+      - KUBECONFIG="{{.KUBECONFIG_FILE}}" kubectl get ns
