@@ -19,12 +19,28 @@ tasks:
         TALOS_NODE="$(TERRAFORM_DIR="{{.TERRAFORM_DIR}}" TALCONFIG_FILE="{{.TALCONFIG_FILE}}" BOOTSTRAP_ENV_FILE="{{.BOOTSTRAP_ENV_FILE}}" bash ./scripts/get-talos-node.sh)"
         echo "Using Talos node: ${TALOS_NODE}"
         talosctl --talosconfig "{{.TALOSCONFIG_FILE}}" --nodes "${TALOS_NODE}" kubeconfig "{{.KUBECONFIG_FILE}}"
+        bash ./scripts/prepare-kubeconfig.sh "{{.KUBECONFIG_FILE}}" "${TALOS_NODE}"
 
   wait-control-plane:
     desc: Wait for the Kubernetes API to respond
     deps: [kubeconfig]
     cmds:
-      - KUBECONFIG="{{.KUBECONFIG_FILE}}" bash -c 'until kubectl get --raw=/readyz >/dev/null 2>&1; do echo "waiting for Kubernetes API..."; sleep 5; done'
+      - |
+        KUBECONFIG="{{.KUBECONFIG_FILE}}" bash -c '
+          for attempt in $(seq 1 24); do
+            if kubectl get --raw=/readyz >/dev/null 2>&1; then
+              echo "Kubernetes API is ready"
+              exit 0
+            fi
+            server=$(kubectl config view --minify -o jsonpath="{.clusters[0].cluster.server}" 2>/dev/null || true)
+            echo "waiting for Kubernetes API... (attempt ${attempt}/24, server=${server:-unknown})"
+            sleep 5
+          done
+          echo "Timed out waiting for Kubernetes API" >&2
+          kubectl config view --minify >&2 || true
+          kubectl cluster-info >&2 || true
+          exit 1
+        '
 
   bootstrap-cilium:
     desc: Install or upgrade Cilium as the cluster networking layer

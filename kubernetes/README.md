@@ -18,6 +18,7 @@ The bootstrap layer exists to do the minimum needed after Talos is up:
 4. hand off ongoing cluster state to GitOps
 
 The kubeconfig step automatically picks a Talos node address by preferring Terraform `output nodes` public IPv6 data, then falling back to the first control-plane IP in `talos/talconfig.yaml`.
+If Talos generates a kubeconfig that points at a private API endpoint, the bootstrap flow rewrites it to the selected public Talos node so external operators like the MacBook can still reach the cluster.
 
 That keeps ownership clean and avoids stuffing app-layer bootstrapping into `talconfig`.
 
