@@ -65,6 +65,7 @@ fi
 
 cilium_args=(
   --version "${CILIUM_VERSION}"
+  --set "routingMode=native"
   --set "ipam.mode=kubernetes"
   --set "kubeProxyReplacement=true"
   --set "k8sServiceHost=${KUBERNETES_SERVICE_HOST}"
