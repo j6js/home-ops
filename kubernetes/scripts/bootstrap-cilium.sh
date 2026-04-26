@@ -56,6 +56,8 @@ cilium_args=(
   --set "kubeProxyReplacement=true"
   --set "k8sServiceHost=${KUBERNETES_SERVICE_HOST}"
   --set "k8sServicePort=${KUBERNETES_SERVICE_PORT}"
+  --set securityContext.capabilities.ciliumAgent="{CHOWN,KILL,NET_ADMIN,NET_RAW,IPC_LOCK,SYS_ADMIN,SYS_RESOURCE,DAC_OVERRIDE,FOWNER,SETGID,SETUID}"
+  --set securityContext.capabilities.cleanCiliumState="{NET_ADMIN,SYS_ADMIN,SYS_RESOURCE}"
 )
 
 if KUBECONFIG="${KUBECONFIG}" kubectl -n kube-system get daemonset cilium >/dev/null 2>&1; then
