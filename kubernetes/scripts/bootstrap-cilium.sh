@@ -25,7 +25,7 @@ if [[ ! -f "${KUBECONFIG}" ]]; then
   exit 1
 fi
 
-mapfile -t api_parts < <(KUBECONFIG="${KUBECONFIG}" python3 - <<'PY'
+api_parts="$({ KUBECONFIG="${KUBECONFIG}" python3 - <<'PY'
 from urllib.parse import urlparse
 import os
 import subprocess
@@ -39,10 +39,23 @@ parsed = urlparse(server)
 print(parsed.hostname or "")
 print(parsed.port or 6443)
 PY
-)
+} )"
 
-KUBERNETES_SERVICE_HOST="${KUBERNETES_SERVICE_HOST:-${api_parts[0]}}"
-KUBERNETES_SERVICE_PORT="${KUBERNETES_SERVICE_PORT:-${api_parts[1]}}"
+api_host=""
+api_port=""
+while IFS= read -r line; do
+  if [[ -z "${api_host}" ]]; then
+    api_host="${line}"
+  elif [[ -z "${api_port}" ]]; then
+    api_port="${line}"
+    break
+  fi
+done <<EOF
+${api_parts}
+EOF
+
+KUBERNETES_SERVICE_HOST="${KUBERNETES_SERVICE_HOST:-${api_host}}"
+KUBERNETES_SERVICE_PORT="${KUBERNETES_SERVICE_PORT:-${api_port:-6443}}"
 CILIUM_VERSION="${CILIUM_VERSION:-1.18.2}"
 
 if [[ -z "${KUBERNETES_SERVICE_HOST}" ]]; then
