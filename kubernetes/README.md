@@ -17,6 +17,8 @@ The bootstrap layer exists to do the minimum needed after Talos is up:
 3. bootstrap **Flux** against this repo
 4. hand off ongoing cluster state to GitOps
 
+The kubeconfig step automatically picks a Talos node address by preferring Terraform `output nodes` public IPv6 data, then falling back to the first control-plane IP in `talos/talconfig.yaml`.
+
 That keeps ownership clean and avoids stuffing app-layer bootstrapping into `talconfig`.
 
 ## Layout
@@ -39,3 +41,5 @@ Run from the repo root:
 ## Optional bootstrap config
 
 Copy `kubernetes/bootstrap.env.example` to `kubernetes/bootstrap.env` if you want to override defaults such as the Cilium version, Flux path, or the Kubernetes API endpoint.
+
+If you ever need to force a specific Talos node for kubeconfig retrieval, export `TALOS_NODE=<public-ipv6>` before running the task or set it in `kubernetes/bootstrap.env`.

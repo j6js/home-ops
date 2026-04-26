@@ -4,6 +4,8 @@ version: '3'
 vars:
   KUBECONFIG_FILE: '{{default "./kubeconfig" .KUBECONFIG_FILE}}'
   TALOSCONFIG_FILE: '{{default "../talos/clusterconfig/talosconfig" .TALOSCONFIG_FILE}}'
+  TALCONFIG_FILE: '{{default "../talos/talconfig.yaml" .TALCONFIG_FILE}}'
+  TERRAFORM_DIR: '{{default "../terraform" .TERRAFORM_DIR}}'
   BOOTSTRAP_ENV_FILE: '{{default "./bootstrap.env" .BOOTSTRAP_ENV_FILE}}'
 
 tasks:
@@ -13,7 +15,10 @@ tasks:
       - sh: test -f "{{.TALOSCONFIG_FILE}}"
         msg: talos/clusterconfig/talosconfig not found. Run task talos:deploy first.
     cmds:
-      - talosctl --talosconfig "{{.TALOSCONFIG_FILE}}" kubeconfig "{{.KUBECONFIG_FILE}}"
+      - |
+        TALOS_NODE="$$(TERRAFORM_DIR="{{.TERRAFORM_DIR}}" TALCONFIG_FILE="{{.TALCONFIG_FILE}}" BOOTSTRAP_ENV_FILE="{{.BOOTSTRAP_ENV_FILE}}" bash ./scripts/get-talos-node.sh)"
+        echo "Using Talos node: $$TALOS_NODE"
+        talosctl --talosconfig "{{.TALOSCONFIG_FILE}}" --nodes "$$TALOS_NODE" kubeconfig "{{.KUBECONFIG_FILE}}"
 
   wait-control-plane:
     desc: Wait for the Kubernetes API to respond
