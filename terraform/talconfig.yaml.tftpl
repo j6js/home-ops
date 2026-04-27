@@ -1,6 +1,12 @@
 clusterName: ${cluster_name}
 endpoint: https://${kube_vip_ip}:6443
 
+imageFactory:
+  registryURL: factory.talos.dev
+  schematicEndpoint: /schematics
+  protocol: http
+  installerURLTmpl: {{.RegistryURL}}/oracle-installer/{{.ID}}:{{.Version}}
+
 patches:
   - |-
     cluster:
