@@ -1,4 +1,5 @@
 tenancy_ocid: ENC[AES256_GCM,data:h+Qoh1Vtk0b47x9iDPxEUG4RLGha6iCbomtoIEoTTGvchqf6IF8fBykrFUNIVfG6AD81xb3ru0x3HG8mHnvr+VNzBw9iPiiQedJpR00vzw==,iv:KfwR6xB4T+uc+OAMeSSln6I9wyZuRCJvjjNKf5/tVMQ=,tag:dPMNEiJHjjCi48xzhqLHHw==,type:str]
+administrator_group_ocid: ENC[AES256_GCM,data:8/4tJWOrUvuozFqA2lyd1jrIhNUKyxn9aRzEh6PYTrPt2zL02hKZluJkbrtGgQw3muqE3q6BDC9OqsXmMDrH+RLoyD3e7JbgAmGjgac=,iv:IPmBgS1fSz1U26QXTdw1Px/d4pgjjLx9Wc9QFORZBP8=,tag:06NBOCkST1B4dLxVUIBauw==,type:str]
 user_ocid: ENC[AES256_GCM,data:1KSMmsyTrI+PffXyfmdO9NSPDJFCsLM7yXNSRwXqA92ILbLwZzbT2kRkXrGijYHSHEfdJEsP36Qm5m/vuX1TvKqZK+sh7tmxtWs5yA==,iv:tF9M4GDA+58OodwEUMvnuOESAZUtxuzxriEHgqu/58o=,tag:r1noZwS71v0fDptMptS2AA==,type:str]
 compartment_ocid: ENC[AES256_GCM,data:EmaXqeqDJl2T+x6UTiMqijWP0Db2IGUuNF8UqwLXlE0BQGrGwv3L/N7t/iVJqvOuRxyfNJf5HSNQlN9++Hnj1xFn+uVzfx4Hk3oakBMBPxu+RQE=,iv:VUPYz8HiqIhOhdTf0Z9N9KSqhU4LeE3d5AfOfTmFaQI=,tag:Y99PuPBe0Aoj5hDRH3PlKQ==,type:str]
 fingerprint: ENC[AES256_GCM,data:9MAWSOK97xMsQSjKiX6pN5RGKpGL7MxvObxYP3U3BybMz4oy/WRSa8VQsbTK7JQ=,iv:N2UpBh4LBT0pAaxap6ORRGT4fqPFiaa4EHQUXKGFcvw=,tag:Plnu/J7cUKxRKytBVcxVPg==,type:str]
@@ -126,7 +127,7 @@ sops:
             m5zd7WYZGLtuxtOwMOkdjO/gGC+iWyhMMyECTNKw9t/fv0sJyLwL+xGvnAwY9l+6
             0MxeBrbiZznlQck=
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2026-04-22T04:58:34Z"
-    mac: ENC[AES256_GCM,data:4F6yo/23kKPdwRfB1c4TQll2E9FN75BpGtnnRWOuqNex7CD9YFuy3WQvk2uuGb95YQJTOdyCYwf4kc4BkRdViWhW90AuWNbTnIMoWamJq53Sfviah9KLz2g+UbTwc3/vjxrwtWkA+f66MCB4KIiaR0M4vOn68TF55FTKkTsg7bE=,iv:Qun4oDirUvm2WhXkfkMkP/gUpmrxskg7X4yIp/7LjyU=,tag:QD0+GYo3AMlmMIswN6XApg==,type:str]
+    lastmodified: "2026-04-27T07:56:03Z"
+    mac: ENC[AES256_GCM,data:6NvvOO5i2YqJXGY9KSp+PkE1ppsWlSCB94SueIVeEvJQ+ncVF0Hhz4MtMdesqSzRo8y1vnidLWR+8eJ8PCrX2l+2Yhtxy0cVE/q6fF5JAzuqt0ya6NYDF5EDxCTl9EulvlUQ0EeRpYCGnKmDJdL1G6GLM0+hAxPgfzSMkSSuipA=,iv:GUkEGLKj6mhKkHcNzW18BiLlvSOWjBCxup8XXu1Qlh0=,tag:/LpQLMP85JsLSlapqEPMPA==,type:str]
     unencrypted_suffix: _unencrypted
     version: 3.12.2
