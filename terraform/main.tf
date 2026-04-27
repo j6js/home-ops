@@ -40,7 +40,7 @@ provider "oci" {
 module "mel" {
   source                       = "./mel"
   syd_tenancy_ocid             = data.sops_file.oci_syd.data["tenancy_ocid"]
-  syd_administrator_group_ocid = data.sops_file.oci_syd.data["admininstrator_group_ocid"]
+  syd_administrator_group_ocid = data.sops_file.oci_syd.data["administrator_group_ocid"]
   syd_ipv4_cidr                = module.syd.vcn_cidr_block
   syd_ipv6_cidr                = module.syd.vcn_ipv6_cidr_block
   providers = {
