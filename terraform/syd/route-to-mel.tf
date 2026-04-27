@@ -12,6 +12,8 @@ resource "oci_core_drg_attachment" "syd_drg_attachment" {
 resource "oci_core_remote_peering_connection" "syd_to_mel_rpc" {
     compartment_id = data.sops_file.oci.data["compartment_ocid"]
     drg_id         = oci_core_drg.syd_drg.id
+    peer_id = var.mel_rpc_id
+    peer_region_name = data.sops_file.oci_mel.data["region"]
 }
 data "oci_core_drg_attachments" "syd_to_mel_attachments" {
     compartment_id = data.sops_file.oci.data["compartment_ocid"]
