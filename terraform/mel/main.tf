@@ -18,8 +18,7 @@ resource "oci_identity_policy" "accept_rpc_from_syd" {
 
   statements = [
     "Define tenancy SydTenancy as ${var.syd_tenancy_ocid}",
-    "Define group SydAdmins as ${var.syd_administrator_group_ocid}",
-    "Admit group SydAdmins of tenancy SydTenancy to manage remote-peering-from in tenancy"
+    "Admit any-user of tenancy SydTenancy to manage remote-peering-from in tenancy"
   ]
 }
 data "sops_file" "oci" {
@@ -47,7 +46,8 @@ output "vcn_id" {
   value = oci_core_vcn.mel_vcn.id
 }
 output "rpc_id" {
-  value = oci_core_remote_peering_connection.mel_to_syd_rpc.id
+  value      = oci_core_remote_peering_connection.mel_to_syd_rpc.id
+  depends_on = [oci_identity_policy.accept_rpc_from_syd]
 }
 output "drg_id" {
   value = oci_core_drg.mel_drg.id

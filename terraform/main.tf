@@ -48,11 +48,12 @@ module "mel" {
   }
 }
 module "syd" {
-  source           = "./syd"
-  mel_rpc_id       = module.mel.rpc_id
-  mel_ipv4_cidr    = module.mel.vcn_cidr_block
-  mel_ipv6_cidr    = module.mel.vcn_ipv6_cidr_block
-  mel_tenancy_ocid = data.sops_file.oci_mel.data["tenancy_ocid"]
+  source                       = "./syd"
+  mel_rpc_id                   = module.mel.rpc_id
+  mel_ipv4_cidr                = module.mel.vcn_cidr_block
+  mel_ipv6_cidr                = module.mel.vcn_ipv6_cidr_block
+  mel_tenancy_ocid             = data.sops_file.oci_mel.data["tenancy_ocid"]
+  syd_administrator_group_ocid = data.sops_file.oci_syd.data["administrator_group_ocid"]
   providers = {
     oci = oci.syd
   }

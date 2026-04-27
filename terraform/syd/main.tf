@@ -17,7 +17,7 @@ resource "oci_identity_policy" "request_rpc_to_mel" {
 
   statements = [
     "Define tenancy MelTenancy as ${var.mel_tenancy_ocid}",
-    "Endorse group Administrators to manage remote-peering-to in tenancy MelTenancy"
+    "Endorse any-user to manage remote-peering-to in tenancy MelTenancy"
   ]
 }
 
