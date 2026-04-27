@@ -38,21 +38,21 @@ provider "oci" {
 }
 
 module "mel" {
-  source           = "./mel"
-  syd_tenancy_ocid = data.sops_file.oci_syd.data["tenancy_ocid"]
-  syd_ipv4_cidr    = module.syd.vcn_cidr_block
-  syd_ipv6_cidr    = module.syd.vcn_ipv6_cidr_block
+  source                       = "./mel"
+  syd_tenancy_ocid             = data.sops_file.oci_syd.data["tenancy_ocid"]
+  syd_administrator_group_ocid = data.sops_file.oci_syd.data["admininstrator_group_ocid"]
+  syd_ipv4_cidr                = module.syd.vcn_cidr_block
+  syd_ipv6_cidr                = module.syd.vcn_ipv6_cidr_block
   providers = {
     oci = oci.mel
   }
 }
 module "syd" {
-  source                       = "./syd"
-  mel_rpc_id                   = module.mel.rpc_id
-  mel_ipv4_cidr                = module.mel.vcn_cidr_block
-  mel_ipv6_cidr                = module.mel.vcn_ipv6_cidr_block
-  mel_tenancy_ocid             = data.sops_file.oci_mel.data["tenancy_ocid"]
-  mel_administrator_group_ocid = data.sops_file.oci_mel.data["admininstrator_group_ocid"]
+  source           = "./syd"
+  mel_rpc_id       = module.mel.rpc_id
+  mel_ipv4_cidr    = module.mel.vcn_cidr_block
+  mel_ipv6_cidr    = module.mel.vcn_ipv6_cidr_block
+  mel_tenancy_ocid = data.sops_file.oci_mel.data["tenancy_ocid"]
   providers = {
     oci = oci.syd
   }

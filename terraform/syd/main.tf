@@ -10,20 +10,22 @@ terraform {
 		}
 	}
 }
-resource "oci_identity_policy" "accept_rpc_from_mel" {
-  name           = "accept-rpc-from-mel"
-  description    = "Allow MEL tenancy to peer via RPC"
+resource "oci_identity_policy" "request_rpc_to_mel" {
+  name           = "request-rpc-to-mel"
+  description    = "Allow peering to MEL tenancy"
   compartment_id = data.sops_file.oci.data["tenancy_ocid"]
 
   statements = [
     "Define tenancy MelTenancy as ${var.mel_tenancy_ocid}",
-    "Define group MelAdmins as ${var.mel_administrator_group_ocid}",
-    "Admit group MelAdmins of tenancy MelTenancy to manage remote-peering-from in tenancy"
+    "Endorse group Administrators to manage remote-peering-to in tenancy MelTenancy"
   ]
 }
 
 data "sops_file" "oci" {
 	source_file = ".secrets/oracle-syd.yaml"
+}
+data "sops_file" "oci_mel" {
+	source_file = ".secrets/oracle-mel.yaml"
 }
 
 data "sops_file" "ssh_authorized_keys" {

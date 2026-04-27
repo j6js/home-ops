@@ -11,14 +11,15 @@ terraform {
 	}
 }
 
-resource "oci_identity_policy" "request_rpc_to_syd" {
-  name           = "request-rpc-to-syd"
-  description    = "Allow peering to SYD tenancy"
+resource "oci_identity_policy" "accept_rpc_from_syd" {
+  name           = "accept-rpc-from-syd"
+  description    = "Allow SYD tenancy to peer via RPC"
   compartment_id = data.sops_file.oci.data["tenancy_ocid"]
 
   statements = [
     "Define tenancy SydTenancy as ${var.syd_tenancy_ocid}",
-    "Endorse group Administrators to manage remote-peering-to in tenancy SydTenancy"
+    "Define group SydAdmins as ${var.syd_administrator_group_ocid}",
+    "Admit group SydAdmins of tenancy SydTenancy to manage remote-peering-from in tenancy"
   ]
 }
 data "sops_file" "oci" {
