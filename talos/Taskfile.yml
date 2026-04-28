@@ -18,9 +18,9 @@ tasks:
       - if: "![ -f \"talsecret.yaml\" ]" # If talsecret.yaml does NOT exist
         task: decrypt # Run the decrypt task to create it
       - talhelper genconfig # Uses talconfig.yaml to generate per-machine config for all nodes
-      - talhelper gencommand apply | bash # Apply config to already configured nodes
-      - talhelper gencommand apply --extra-flags "--insecure" | bash # Apply config to new nodes (without valid TLS)
-  clean:
+      - talhelper gencommand apply --extra-flags "--insecure" | bash 
+      - talhelper gencommand apply | bash
+  destroy: 
     desc: Remove the generated talsecret.yaml file
     cmds:
       - rm -f talsecret.yaml
