@@ -27,13 +27,3 @@ data "oci_core_drg_attachments" "mel_to_syd_attachments" {
     attachment_type = "REMOTE_PEERING_CONNECTION"
     network_id     = oci_core_remote_peering_connection.mel_to_syd_rpc.id
 }
-
-# Melbourne DRG routes
-resource "oci_core_drg_route_table_route_rule" "mel-local-ipv6" {
-    drg_route_table_id         = oci_core_drg_route_table.mel_drg_rt.id
-    destination                = oci_core_vcn.mel_vcn.ipv6cidr_blocks[0]
-    destination_type           = "CIDR_BLOCK"
-    next_hop_drg_attachment_id = oci_core_drg_attachment.mel_drg_attachment.id
-    depends_on = [null_resource.wait_for_mel_attachment]
-}
-

@@ -2,7 +2,7 @@
 resource "oci_core_vcn" "syd_vcn" {
     compartment_id  = data.sops_file.oci.data["compartment_ocid"]
     cidr_blocks     = ["10.0.0.0/16"]
-	is_ipv6enabled  = true
+	  is_ipv6enabled  = true
 }
 resource "oci_core_internet_gateway" "syd_igw" {
   compartment_id = data.sops_file.oci.data["compartment_ocid"]

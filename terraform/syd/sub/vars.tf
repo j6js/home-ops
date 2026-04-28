@@ -6,6 +6,14 @@ variable "mel_ipv4_cidr" {
   type = string
   description = "CIDR block for Melbourne VCN IPv4 range"
 }
+variable "syd_ipv6_cidr" {
+  type = string
+  description = "CIDR block for Sydney VCN IPv6 range"
+}
+variable "syd_ipv4_cidr" {
+  type = string
+  description = "CIDR block for Sydney VCN IPv4 range"
+}
 variable "vcn_id" {
   type = string
   description = "OCID of the Sydney VCN"

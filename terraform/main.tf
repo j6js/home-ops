@@ -64,6 +64,8 @@ module "mel_sub" {
   vcn_id        = module.mel.vcn_id
   syd_ipv4_cidr = module.syd.vcn_cidr_block
   syd_ipv6_cidr = module.syd.vcn_ipv6_cidr_block
+  mel_ipv4_cidr = module.mel.vcn_cidr_block
+  mel_ipv6_cidr = module.mel.vcn_ipv6_cidr_block
   rpc_id        = module.mel.rpc_id
   drg_id        = module.mel.drg_id
   drg_rt_id     = module.mel.drg_rt_id
@@ -78,6 +80,8 @@ module "syd_sub" {
   vcn_id        = module.syd.vcn_id
   mel_ipv4_cidr = module.mel.vcn_cidr_block
   mel_ipv6_cidr = module.mel.vcn_ipv6_cidr_block
+  syd_ipv4_cidr = module.syd.vcn_cidr_block
+  syd_ipv6_cidr = module.syd.vcn_ipv6_cidr_block
   rpc_id        = module.syd.rpc_id
   drg_id        = module.syd.drg_id
   drg_rt_id     = module.syd.drg_rt_id

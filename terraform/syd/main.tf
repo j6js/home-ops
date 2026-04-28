@@ -16,8 +16,9 @@ resource "oci_identity_policy" "request_rpc_to_mel" {
   compartment_id = data.sops_file.oci.data["tenancy_ocid"]
 
   statements = [
-    "Define tenancy MelTenancy as ${var.mel_tenancy_ocid}",
-    "Endorse any-user to manage remote-peering-to in tenancy MelTenancy"
+    "Define tenancy Acceptor as ${var.mel_tenancy_ocid}",
+    "Allow group id ${var.syd_administrator_group_ocid} to manage remote-peering-from in compartment id ${data.sops_file.oci.data["compartment_ocid"]}",
+    "Endorse group id ${var.syd_administrator_group_ocid} to manage remote-peering-to in tenancy Acceptor"
   ]
 }
 
