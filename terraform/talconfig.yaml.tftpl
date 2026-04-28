@@ -5,7 +5,7 @@ imageFactory:
   registryURL: factory.talos.dev
   schematicEndpoint: /schematics
   protocol: http
-  installerURLTmpl: {{.RegistryURL}}/oracle-installer/{{.ID}}:{{.Version}}
+  installerURLTmpl: "{{.RegistryURL}}/oracle-installer/{{.ID}}:{{.Version}}"
 
 patches:
   - |-
